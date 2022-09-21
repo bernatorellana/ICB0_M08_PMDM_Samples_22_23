@@ -1,5 +1,10 @@
 package com.example.a220914_orcotinder.model;
 
+import android.telephony.PhoneNumberUtils;
+
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
+
 import com.example.a220914_orcotinder.R;
 
 import java.util.ArrayList;
@@ -10,7 +15,7 @@ public class Ork {
     private String name;
     private String phone;
     private Sexe sexe;
-    private int imatge;
+    private @IdRes  int imatge;
     private int indexPais;
 
     //------------------------------
@@ -19,7 +24,8 @@ public class Ork {
         if (orks==null){
             orks = new ArrayList<>();
             orks.add(new Ork("Orkito", "123123321", Sexe.HOME, R.drawable.orco, 2));
-            orks.add(new Ork("Orkita", "453423342", Sexe.DONA, R.drawable.orco, 2));
+            orks.add(new Ork("Orkita", "453423342", Sexe.DONA, R.drawable.ork1, 2));
+            orks.add(new Ork("Orkin", "453423342", Sexe.DONA, R.drawable.ork2, 2));
         }
         return orks;
     }
@@ -33,12 +39,20 @@ public class Ork {
         setIndexPais(codi);
     }
 
+    public static boolean validaPhone(String phoneNumber) {
+        return PhoneNumberUtils.isGlobalPhoneNumber(phoneNumber);
+    }
 
     public String getName() {
         return name;
     }
 
+    public static boolean validaNom(String name) {
+        return !(name ==null || name.trim().length()<3);
+    }
+
     public void setName(String name) {
+        if(!validaNom(name)) throw new RuntimeException("Nom incorrecte");
         this.name = name;
     }
 
