@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:drawable="@drawable/capseta"></item>
+
+    <item android:drawable="@drawable/brillo"
+        android:bottom="350dp"
+        android:left="350dp"
+        android:top="30dp"
+        android:right="30dp"
+        android:gravity="end"
+        ></item>
+</layer-list>
