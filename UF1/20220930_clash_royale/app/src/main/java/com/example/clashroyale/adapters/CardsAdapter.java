@@ -37,7 +37,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
                 Log.d("XXX", "Han fet click a la posició "+pos);
                 //mCards.get(pos).setSelected(true);
                 mCards.get(pos).toogleSelect();
-                notifyDataSetChanged();
+                notifyItemChanged(3, );
             }
         });
 
