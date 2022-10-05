@@ -5,6 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     >
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -13,11 +14,21 @@
         app:layout_constraintLeft_toLeftOf="@id/grdl"
         app:layout_constraintTop_toTopOf="@id/grdl"
         app:layout_constraintRight_toRightOf="@id/grdl"
-        app:layout_constraintTop_toBottomOf="@id/grdl"
+        app:layout_constraintBottom_toBottomOf="@id/grdl"
         android:scaleType="centerCrop"
         >
-    >
     </ImageView>
+
+    <View android:id="@+id/vieSelected"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#80ffff00"
+        app:layout_constraintLeft_toLeftOf="@id/grdl"
+        app:layout_constraintTop_toTopOf="@id/grdl"
+        app:layout_constraintRight_toRightOf="@id/grdl"
+        app:layout_constraintBottom_toBottomOf="@id/grdl"
+        ></View>
     <GridLayout
         android:id="@+id/grdl"
         android:layout_width="match_parent"
@@ -47,6 +58,7 @@
             android:layout_column="1"
             android:layout_row="0"
             android:text="1.- Prince"
+
             ></TextView>
         <TextView
             android:id="@+id/txvDesc"
