@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.clashroyale.R;
 import com.example.clashroyale.model.Card;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder>  {
@@ -21,6 +22,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
     public CardsAdapter(List<Card> pCards){
         mCards = pCards;
     }
+    private int posItemSeleccionat = -1;
 
     @NonNull
     @Override
@@ -36,8 +38,18 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
                 int pos = vh.getAdapterPosition();
                 Log.d("XXX", "Han fet click a la posició "+pos);
                 //mCards.get(pos).setSelected(true);
-                mCards.get(pos).toogleSelect();
-                notifyItemChanged(3, );
+                int posAntiga = posItemSeleccionat;
+                posItemSeleccionat = pos;
+                /*for (int i=0;i<mCards.size();i++) {
+                    if(mCards.get(i).isSelected()) {
+                        mCards.get(i).setSelected(false);
+                        notifyItemChanged(i);
+                        break;
+                    }
+                }
+                mCards.get(pos).toogleSelect();*/
+                if(posAntiga!=-1) notifyItemChanged(posAntiga);
+                notifyItemChanged(pos);
             }
         });
 
@@ -51,10 +63,15 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
         holder.txvDesc.setText(c.getDesc());
         holder.txvCost.setText(""+c.getElixirCost());
         holder.imvPhoto.setImageResource(c.getDrawable());
-        Log.d("XXX", "Actualitzant fila "+position);
-        holder.vieSelected.setVisibility( c.isSelected()?
+        Log.d("XXX", "Actualitzant fila YY "+position);
+
+        holder.vieSelected.setVisibility(
+                    (position==posItemSeleccionat)?
+                            View.VISIBLE:
+                            View.INVISIBLE );
+        /*holder.vieSelected.setVisibility( c.isSelected()?
                                             View.VISIBLE:
-                                            View.INVISIBLE );
+                                            View.INVISIBLE );*/
 
     }
 
@@ -79,4 +96,37 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
             vieSelected = fila.findViewById(R.id.vieSelected);
         }
     }
+
+    public void esborraActual(){
+        if(this.posItemSeleccionat!=-1){
+            mCards.remove(this.posItemSeleccionat);
+            notifyItemRemoved(this.posItemSeleccionat);
+            if(this.posItemSeleccionat==mCards.size()) {
+                this.posItemSeleccionat--;
+            }
+            if(posItemSeleccionat!=-1) {
+                notifyItemChanged(this.posItemSeleccionat);
+            }
+        }
+    }
+
+    public void upSelected(){
+        if(this.posItemSeleccionat!=-1 && this.posItemSeleccionat>0){
+            Collections.swap(mCards,this.posItemSeleccionat-1,this.posItemSeleccionat);
+            notifyItemMoved(posItemSeleccionat, posItemSeleccionat-1);
+            this.posItemSeleccionat--;
+            notifyItemChanged(posItemSeleccionat);
+        }
+    }
+
+
+    public void downSelected(){
+        if(this.posItemSeleccionat!=-1 && this.posItemSeleccionat< mCards.size()-1){
+            Collections.swap(mCards,this.posItemSeleccionat+1,this.posItemSeleccionat);
+            notifyItemMoved(posItemSeleccionat, posItemSeleccionat+1);
+            this.posItemSeleccionat++;
+            notifyItemChanged(posItemSeleccionat);
+        }
+    }
+
 }
