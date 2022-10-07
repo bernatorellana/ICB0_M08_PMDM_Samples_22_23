@@ -12,11 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.clashroyale.R;
 import com.example.clashroyale.model.Card;
+import com.example.clashroyale.touch.ItemTouchHelperInterface;
 
 import java.util.Collections;
 import java.util.List;
 
-public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder>  {
+public class CardsAdapter
+        extends RecyclerView.Adapter<CardsAdapter.ViewHolder>
+        implements ItemTouchHelperInterface {
 
     List<Card> mCards;
     public CardsAdapter(List<Card> pCards){
@@ -81,6 +84,7 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
     }
 
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txvName;
         TextView txvCost;
@@ -97,17 +101,37 @@ public class CardsAdapter extends RecyclerView.Adapter<CardsAdapter.ViewHolder> 
         }
     }
 
-    public void esborraActual(){
-        if(this.posItemSeleccionat!=-1){
-            mCards.remove(this.posItemSeleccionat);
-            notifyItemRemoved(this.posItemSeleccionat);
-            if(this.posItemSeleccionat==mCards.size()) {
-                this.posItemSeleccionat--;
-            }
-            if(posItemSeleccionat!=-1) {
-                notifyItemChanged(this.posItemSeleccionat);
+
+
+    @Override
+    public void move(int fromIndex, int toIndex) {
+        Card c = mCards.remove(fromIndex);
+        if(toIndex>fromIndex){
+            toIndex--;
+        }
+        mCards.add(toIndex,c);
+        notifyItemMoved(fromIndex, toIndex);
+    }
+
+    @Override
+    public void delete(int toDelete) {
+        if(toDelete!=-1){
+            mCards.remove(toDelete);
+            notifyItemRemoved(toDelete);
+            //---------------------------------------
+            if(toDelete==this.posItemSeleccionat) {
+                if (this.posItemSeleccionat == mCards.size()) {
+                    this.posItemSeleccionat--;
+                }
+                if (posItemSeleccionat != -1) {
+                    notifyItemChanged(this.posItemSeleccionat);
+                }
             }
         }
+    }
+
+    public void esborraActual(){
+        delete(posItemSeleccionat);
     }
 
     public void upSelected(){

@@ -1,6 +1,7 @@
 package com.example.clashroyale;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 
 import com.example.clashroyale.adapters.CardsAdapter;
 import com.example.clashroyale.model.Card;
+import com.example.clashroyale.touch.ItemTouchHelperCallback;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,12 +23,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //---------------------------------
+        // Configuració del RecyclerView
+        //---------------------------------
         rcyClash = findViewById(R.id.rcyClash);
         rcyClash.setLayoutManager(new LinearLayoutManager(this));
         rcyClash.setHasFixedSize(true);
         //---------------------------------
+        // Creació de l'Adapter
         adapter = new CardsAdapter(Card.getCartes());
         rcyClash.setAdapter(adapter);
+        //----------------------------------
+        // Preparem el TouchHelper per a que funcioni el Swipe i el Drag en el RecyclerView
+        ItemTouchHelper ith = new ItemTouchHelper(
+                                new ItemTouchHelperCallback(adapter));
+        ith.attachToRecyclerView(rcyClash);
         //----------------------------------
         // Activem el toolbar
         setSupportActionBar(findViewById(R.id.my_toolbar));
