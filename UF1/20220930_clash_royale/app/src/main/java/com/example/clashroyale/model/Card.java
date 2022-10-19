@@ -1,76 +1,110 @@
 package com.example.clashroyale.model;
 
+import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.example.clashroyale.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Card
+public class Card implements Parcelable
 {
     Rarity rarity;
     int id;
     String name;
-    int drawable;
-    String desc;    
+    //int drawable;
+    String desc;
     int elixirCost;
     boolean selected;
+    String imageURL;
 
-    public Card(int id,  String nom, Rarity raresa, int drawable, String desc, int elixirCost) {
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+        imageURL = null;
+    }
+
+    Bitmap bitmap;
+
+
+    public Card(int id,  String nom, Rarity raresa, String imageURL,  String desc, int elixirCost) {
         this.rarity = raresa;
         this.id = id;
         this.name = nom;
-        this.drawable = drawable;
+        //this.drawable = drawable;
+        this.imageURL = imageURL;
+        this.bitmap = null;
         this.desc = desc;
         this.elixirCost = elixirCost;
     }
-    
+
     private static ArrayList<Card> _cartes ;
-    
-    
-    
+
+
+    protected Card(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        desc = in.readString();
+        elixirCost = in.readInt();
+        selected = in.readByte() != 0;
+        imageURL = in.readString();
+    }
+
+    public static final Creator<Card> CREATOR = new Creator<Card>() {
+        @Override
+        public Card createFromParcel(Parcel in) {
+            return new Card(in);
+        }
+
+        @Override
+        public Card[] newArray(int size) {
+            return new Card[size];
+        }
+    };
+
     public static List<Card> getCartes(){
 
         if(_cartes==null) {
-                _cartes = new ArrayList<Card>();
-            _cartes.add(new Card(1, "Prince", Rarity.EPIC, R.drawable.prince,
+            _cartes = new ArrayList<Card>();
+            _cartes.add(new Card(1, "Prince", Rarity.EPIC,
+                    "http://raw.githubusercontent.com/bernatorellana/ICB0_M08_PMDM_Samples_21_22/main/UF1/20220211_RecyclerView/app/src/main/res/drawable/prince.png",
                     "Don't let the little pony fool you. Once the Prince gets a running start, you WILL be trampled. Deals double damage once he gets charging. ",
                     5 ));
-            _cartes.add(new Card(2, "Skeleton Army", Rarity.RARE, R.drawable.skeletons,
+            _cartes.add(new Card(2, "Skeleton Army", Rarity.RARE,
+                    "http://raw.githubusercontent.com/bernatorellana/ICB0_M08_PMDM_Samples_21_22/main/UF1/20220211_RecyclerView/app/src/main/res/drawable/skeletons.png",
                     " Spawns an army of Skeletons. Meet Larry and his friends Harry, Gerry, Terry, Mary, etc. ",
                     3 ));
-            _cartes.add(new Card(3, "Giant", Rarity.RARE, R.drawable.giant,
+            _cartes.add(new Card(3, "Giant", Rarity.RARE, "http://raw.githubusercontent.com/bernatorellana/ICB0_M08_PMDM_Samples_21_22/main/UF1/20220211_RecyclerView/app/src/main/res/drawable/giant.png",
                     " Slow but durable, only attacks buildings. A real one-man wrecking crew!  ",
                     5 ));
-            _cartes.add(new Card(4, "Spear Goblins", Rarity.COMMON, R.drawable.spear_goblins,
+            _cartes.add(new Card(4, "Spear Goblins", Rarity.COMMON, "http://raw.githubusercontent.com/bernatorellana/ICB0_M08_PMDM_Samples_21_22/main/UF1/20220211_RecyclerView/app/src/main/res/drawable/spear_goblins.png",
                     " Three unarmored ranged attackers. Who the heck taught these guys to throw spears!? Who thought that was a good idea?!   ",
-                    2 ));                _cartes.add(new Card(1, "Prince", Rarity.EPIC, R.drawable.prince,
+                    2 ));
+            _cartes.add(new Card(1, "Prince", Rarity.EPIC,
+                    "\"http://raw.githubusercontent.com/bernatorellana/ICB0_M08_PMDM_Samples_21_22/main/UF1/20220211_RecyclerView/app/src/main/res/drawable/prince.png\"",
                     "Don't let the little pony fool you. Once the Prince gets a running start, you WILL be trampled. Deals double damage once he gets charging. ",
                     5 ));
-            _cartes.add(new Card(2, "Skeleton Army", Rarity.RARE, R.drawable.skeletons,
+            _cartes.add(new Card(2, "Skeleton Army", Rarity.RARE,
+
+                    "http://raw.githubusercontent.com/bernatorellana/ICB0_M08_PMDM_Samples_21_22/main/UF1/20220211_RecyclerView/app/src/main/res/drawable/skeletons.png",
                     " Spawns an army of Skeletons. Meet Larry and his friends Harry, Gerry, Terry, Mary, etc. ",
                     3 ));
-            _cartes.add(new Card(3, "Giant", Rarity.RARE, R.drawable.giant,
+            _cartes.add(new Card(3, "Giant", Rarity.RARE, "http://raw.githubusercontent.com/bernatorellana/ICB0_M08_PMDM_Samples_21_22/main/UF1/20220211_RecyclerView/app/src/main/res/drawable/giant.png",
                     " Slow but durable, only attacks buildings. A real one-man wrecking crew!  ",
                     5 ));
-            _cartes.add(new Card(4, "Spear Goblins", Rarity.COMMON, R.drawable.spear_goblins,
-                    " Three unarmored ranged attackers. Who the heck taught these guys to throw spears!? Who thought that was a good idea?!   ",
-                    2 ));                _cartes.add(new Card(1, "Prince", Rarity.EPIC, R.drawable.prince,
-                    "Don't let the little pony fool you. Once the Prince gets a running start, you WILL be trampled. Deals double damage once he gets charging. ",
-                    5 ));
-            _cartes.add(new Card(2, "Skeleton Army", Rarity.RARE, R.drawable.skeletons,
-                    " Spawns an army of Skeletons. Meet Larry and his friends Harry, Gerry, Terry, Mary, etc. ",
-                    3 ));
-            _cartes.add(new Card(3, "Giant", Rarity.RARE, R.drawable.giant,
-                    " Slow but durable, only attacks buildings. A real one-man wrecking crew!  ",
-                    5 ));
-            _cartes.add(new Card(4, "Spear Goblins", Rarity.COMMON, R.drawable.spear_goblins,
+            _cartes.add(new Card(4, "Spear Goblins", Rarity.COMMON, "http://raw.githubusercontent.com/bernatorellana/ICB0_M08_PMDM_Samples_21_22/main/UF1/20220211_RecyclerView/app/src/main/res/drawable/spear_goblins.png",
                     " Three unarmored ranged attackers. Who the heck taught these guys to throw spears!? Who thought that was a good idea?!   ",
                     2 ));
         }
-        
+
         return _cartes;
-        
+
     }
 
     public Rarity getRarity() {
@@ -93,13 +127,10 @@ public class Card
         this.name = name;
     }
 
-    public int getDrawable() {
-        return drawable;
+    public String getImageURL() {
+        return this.imageURL;
     }
 
-    public void setDrawable(int drawable) {
-        this.drawable = drawable;
-    }
 
     public String getDesc() {
         return desc;
@@ -125,7 +156,23 @@ public class Card
         this.selected = selected;
     }
 
-    public void toogleSelect() {
+    public void switchSelected() {
         this.selected = !selected;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(desc);
+        dest.writeInt(elixirCost);
+        dest.writeByte((byte) (selected ? 1 : 0));
+        dest.writeString(imageURL);
+
     }
 }

@@ -13,6 +13,9 @@ import android.view.MenuItem;
 import com.example.clashroyale.adapters.CardsAdapter;
 import com.example.clashroyale.model.Card;
 import com.example.clashroyale.touch.ItemTouchHelperCallback;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +27,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //---------------------------------------------
+        // Configuració del Universal Image Loader
+        //---------------------------------------------
+        // Create global configuration and initialize ImageLoader with this config
+        DisplayImageOptions options =
+            new DisplayImageOptions.Builder()
+                    .showImageOnLoading(R.drawable.ic_launcher_foreground)
+                    .showImageForEmptyUri(R.drawable.ic_launcher_foreground)
+                    .showImageOnFail(R.drawable.ic_launcher_foreground)
+                    .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .defaultDisplayImageOptions(options)
+			    .build();
+        ImageLoader.getInstance().init(config);
+
+
 
         //---------------------------------
         // Configuració del RecyclerView
@@ -33,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         rcyClash.setHasFixedSize(true);
         //---------------------------------
         // Creació de l'Adapter
-        adapter = new CardsAdapter(Card.getCartes());
+        adapter = new CardsAdapter(Card.getCartes(),this);
         rcyClash.setAdapter(adapter);
         //----------------------------------
         // Preparem el TouchHelper per a que funcioni el Swipe i el Drag en el RecyclerView

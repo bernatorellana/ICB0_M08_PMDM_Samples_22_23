@@ -1,5 +1,7 @@
 package com.example.clashroyale.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +12,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.clashroyale.FitxaActivity;
 import com.example.clashroyale.R;
 import com.example.clashroyale.model.Card;
 import com.example.clashroyale.touch.ItemTouchHelperInterface;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,17 +25,45 @@ public class CardsAdapter
         extends RecyclerView.Adapter<CardsAdapter.ViewHolder>
         implements ItemTouchHelperInterface {
 
-    List<Card> mCards;
-    public CardsAdapter(List<Card> pCards){
+    private ImageLoader mImageLoader;
+    private List<Card> mCards;
+    private int mPosItemSeleccionat = -1;
+    private Context mContext;
+
+    public CardsAdapter(List<Card> pCards, Context c){
+
         mCards = pCards;
+        mImageLoader = ImageLoader.getInstance(); // Get singleton instance
+        mContext = c;
     }
-    private int posItemSeleccionat = -1;
+
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View fila = LayoutInflater.from(parent.getContext()).inflate(R.layout.fila, parent, false);
         ViewHolder vh = new ViewHolder(fila);
+
+
+        fila.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                // Obrir la finestra de visualització de la vistaç
+                // del personatge
+                Intent i = new Intent( mContext, FitxaActivity.class);
+
+                // Prenem el personatge de la posició corresponent
+                int pos = vh.getAdapterPosition();
+                Card c = mCards.get(pos);
+
+                // passar els paràmetres que ens facin falta
+                i.putExtra(FitxaActivity.CARTA, c);
+                mContext.startActivity(i);
+
+                return false;
+            }
+        });
+
 
         // Programació del clic de la fila
         fila.setOnClickListener(new View.OnClickListener() {
@@ -41,8 +73,8 @@ public class CardsAdapter
                 int pos = vh.getAdapterPosition();
                 Log.d("XXX", "Han fet click a la posició "+pos);
                 //mCards.get(pos).setSelected(true);
-                int posAntiga = posItemSeleccionat;
-                posItemSeleccionat = pos;
+                int posAntiga = mPosItemSeleccionat;
+                mPosItemSeleccionat = pos;
                 /*for (int i=0;i<mCards.size();i++) {
                     if(mCards.get(i).isSelected()) {
                         mCards.get(i).setSelected(false);
@@ -65,11 +97,16 @@ public class CardsAdapter
         holder.txvName.setText( c.getId()+"-"+ c.getName()+">"+(c.isSelected()?"S":"N"));
         holder.txvDesc.setText(c.getDesc());
         holder.txvCost.setText(""+c.getElixirCost());
-        holder.imvPhoto.setImageResource(c.getDrawable());
+
+
+        // Load image, decode it to Bitmap and display Bitmap in ImageView (or any other view
+        //	which implements ImageAware interface)
+        mImageLoader.displayImage(c.getImageURL(), holder.imvPhoto);
+
         Log.d("XXX", "Actualitzant fila YY "+position);
 
         holder.vieSelected.setVisibility(
-                    (position==posItemSeleccionat)?
+                    (position== mPosItemSeleccionat)?
                             View.VISIBLE:
                             View.INVISIBLE );
         /*holder.vieSelected.setVisibility( c.isSelected()?
@@ -119,37 +156,37 @@ public class CardsAdapter
             mCards.remove(toDelete);
             notifyItemRemoved(toDelete);
             //---------------------------------------
-            if(toDelete==this.posItemSeleccionat) {
-                if (this.posItemSeleccionat == mCards.size()) {
-                    this.posItemSeleccionat--;
+            if(toDelete==this.mPosItemSeleccionat) {
+                if (this.mPosItemSeleccionat == mCards.size()) {
+                    this.mPosItemSeleccionat--;
                 }
-                if (posItemSeleccionat != -1) {
-                    notifyItemChanged(this.posItemSeleccionat);
+                if (mPosItemSeleccionat != -1) {
+                    notifyItemChanged(this.mPosItemSeleccionat);
                 }
             }
         }
     }
 
     public void esborraActual(){
-        delete(posItemSeleccionat);
+        delete(mPosItemSeleccionat);
     }
 
     public void upSelected(){
-        if(this.posItemSeleccionat!=-1 && this.posItemSeleccionat>0){
-            Collections.swap(mCards,this.posItemSeleccionat-1,this.posItemSeleccionat);
-            notifyItemMoved(posItemSeleccionat, posItemSeleccionat-1);
-            this.posItemSeleccionat--;
-            notifyItemChanged(posItemSeleccionat);
+        if(this.mPosItemSeleccionat !=-1 && this.mPosItemSeleccionat >0){
+            Collections.swap(mCards,this.mPosItemSeleccionat -1,this.mPosItemSeleccionat);
+            notifyItemMoved(mPosItemSeleccionat, mPosItemSeleccionat -1);
+            this.mPosItemSeleccionat--;
+            notifyItemChanged(mPosItemSeleccionat);
         }
     }
 
 
     public void downSelected(){
-        if(this.posItemSeleccionat!=-1 && this.posItemSeleccionat< mCards.size()-1){
-            Collections.swap(mCards,this.posItemSeleccionat+1,this.posItemSeleccionat);
-            notifyItemMoved(posItemSeleccionat, posItemSeleccionat+1);
-            this.posItemSeleccionat++;
-            notifyItemChanged(posItemSeleccionat);
+        if(this.mPosItemSeleccionat !=-1 && this.mPosItemSeleccionat < mCards.size()-1){
+            Collections.swap(mCards,this.mPosItemSeleccionat +1,this.mPosItemSeleccionat);
+            notifyItemMoved(mPosItemSeleccionat, mPosItemSeleccionat +1);
+            this.mPosItemSeleccionat++;
+            notifyItemChanged(mPosItemSeleccionat);
         }
     }
 
