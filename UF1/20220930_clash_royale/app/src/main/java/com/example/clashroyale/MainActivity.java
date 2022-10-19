@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.example.clashroyale.adapters.CardsAdapter;
+import com.example.clashroyale.databinding.ActivityMainBinding;
 import com.example.clashroyale.model.Card;
 import com.example.clashroyale.touch.ItemTouchHelperCallback;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -21,11 +22,16 @@ public class MainActivity extends AppCompatActivity {
 
     RecyclerView rcyClash;
     CardsAdapter adapter;
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        //setContentView(R.layout.activity_main);
 
         //---------------------------------------------
         // Configuració del Universal Image Loader
