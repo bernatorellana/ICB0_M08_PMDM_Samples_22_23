@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navegacio_principal"
+    app:startDestination="@id/portadaFragment">
+
+    <fragment
+        android:id="@+id/portadaFragment"
+        android:name="org.milainfontanals.PortadaFragment"
+        android:label="fragment_portada"
+        tools:layout="@layout/fragment_portada" >
+        <action
+            android:id="@+id/action_portadaFragment_to_llistaFragment"
+            app:destination="@id/llistaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/llistaFragment"
+        android:name="org.milainfontanals.LlistaFragment"
+        android:label="fragment_llista"
+        tools:layout="@layout/fragment_llista" >
+        <action
+            android:id="@+id/action_llistaFragment_to_portadaFragment"
+            app:destination="@id/portadaFragment"
+            app:popUpTo="@id/portadaFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+</navigation>

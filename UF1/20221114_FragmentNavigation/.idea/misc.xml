@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Docencia/Material_Moduls/M8_PMDM/gitRepo/22_23/ICB0_M08_PMDM_Samples_22_23/UF1/20221114_FragmentNavigation/app/src/main/res/layout/activity_main.xml" value="0.23143115942028986" />
+        <entry key="..\:/Docencia/Material_Moduls/M8_PMDM/gitRepo/22_23/ICB0_M08_PMDM_Samples_22_23/UF1/20221114_FragmentNavigation/app/src/main/res/layout/fila.xml" value="0.13425925925925927" />
+        <entry key="..\:/Docencia/Material_Moduls/M8_PMDM/gitRepo/22_23/ICB0_M08_PMDM_Samples_22_23/UF1/20221114_FragmentNavigation/app/src/main/res/layout/fragment_llista.xml" value="0.23143115942028986" />
+        <entry key="..\:/Docencia/Material_Moduls/M8_PMDM/gitRepo/22_23/ICB0_M08_PMDM_Samples_22_23/UF1/20221114_FragmentNavigation/app/src/main/res/layout/fragment_portada.xml" value="0.23143115942028986" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
