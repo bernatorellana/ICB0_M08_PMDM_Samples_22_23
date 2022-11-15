@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -28,13 +30,18 @@ public class CardsAdapter
     private ImageLoader mImageLoader;
     private List<Card> mCards;
     private int mPosItemSeleccionat = -1;
-    private Context mContext;
+    //private Context mContext;
+    private PersonatgeSelectedListener mListener;
 
-    public CardsAdapter(List<Card> pCards, Context c){
+    public interface PersonatgeSelectedListener {
+        public void onPersonatgeSeleccionat(Card seleccionat);
+    }
 
+
+    public CardsAdapter(List<Card> pCards, PersonatgeSelectedListener listener){
+        mListener = listener;
         mCards = pCards;
         mImageLoader = ImageLoader.getInstance(); // Get singleton instance
-        mContext = c;
     }
 
 
@@ -51,14 +58,11 @@ public class CardsAdapter
                 // Obrir la finestra de visualització de la vistaç
                 // del personatge
 
-
                 // Prenem el personatge de la posició corresponent
                 int pos = vh.getAdapterPosition();
                 Card c = mCards.get(pos);
 
-                // passar els paràmetres que ens facin falta
-
-
+                if(mListener!=null) mListener.onPersonatgeSeleccionat(c);
                 return false;
             }
         });

@@ -24,5 +24,19 @@
             app:destination="@id/portadaFragment"
             app:popUpTo="@id/portadaFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_llistaFragment_to_detallFragment"
+            app:destination="@id/detallFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detallFragment"
+        android:name="org.milainfontanals.DetallFragment"
+        android:label="fragment_detall"
+        tools:layout="@layout/fragment_detall" >
+        <action
+            android:id="@+id/action_detallFragment_to_llistaFragment"
+            app:destination="@id/llistaFragment"
+            app:popUpTo="@id/llistaFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

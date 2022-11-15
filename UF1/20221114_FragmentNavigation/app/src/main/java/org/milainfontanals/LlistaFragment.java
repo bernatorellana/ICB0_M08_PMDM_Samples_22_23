@@ -20,7 +20,7 @@ import java.util.Objects;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class LlistaFragment extends Fragment implements View.OnClickListener {
+public class LlistaFragment extends Fragment implements View.OnClickListener, CardsAdapter.PersonatgeSelectedListener {
 
     FragmentLlistaBinding binding;
 
@@ -44,7 +44,7 @@ public class LlistaFragment extends Fragment implements View.OnClickListener {
         // Programem el recycler view per mostrar la llista
         binding.rcyLlista.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.rcyLlista.setHasFixedSize(true);
-        CardsAdapter adapter = new CardsAdapter(Card.getCartes(), requireContext());
+        CardsAdapter adapter = new CardsAdapter(Card.getCartes(),this);
         binding.rcyLlista.setAdapter(adapter);
 
 
@@ -55,5 +55,18 @@ public class LlistaFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         NavController navController =  NavHostFragment.findNavController(this);
         navController.navigate(R.id.action_llistaFragment_to_portadaFragment);
+    }
+
+    @Override
+    public void onPersonatgeSeleccionat(Card seleccionat) {
+        NavController navController =  NavHostFragment.findNavController(this);
+
+        // Preparant els paràmetres del fragment
+        Bundle args = new Bundle();
+        args.putSerializable( DetallFragment.ARG_PARAM_PERSONATGE, seleccionat);
+
+
+        //                                                                      /- Això és el paràmetre
+        navController.navigate(R.id.action_llistaFragment_to_detallFragment, args);
     }
 }

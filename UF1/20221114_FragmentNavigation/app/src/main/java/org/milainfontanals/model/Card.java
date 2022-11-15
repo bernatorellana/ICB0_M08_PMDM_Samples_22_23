@@ -5,11 +5,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Card implements Parcelable
+public class Card implements Parcelable, Serializable
 {
     Rarity rarity;
     int id;
