@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.milainfontanals.adapter.CardsAdapter;
 import org.milainfontanals.databinding.FragmentLlistaBinding;
@@ -37,18 +40,20 @@ public class LlistaFragment extends Fragment implements View.OnClickListener, Ca
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_llista, container, false);
-        binding = FragmentLlistaBinding.inflate(inflater, container, false);
-        binding.btnBack.setOnClickListener(this);
+        View v = inflater.inflate(R.layout.fragment_llista, container, false);
+        //binding = FragmentLlistaBinding.inflate(inflater, container, false);
+        Button btnBack = v.findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(this);
+        RecyclerView rcyLlista = v.findViewById(R.id.rcyLlista);
 
         // Programem el recycler view per mostrar la llista
-        binding.rcyLlista.setLayoutManager(new LinearLayoutManager(requireContext()));
-        binding.rcyLlista.setHasFixedSize(true);
+        rcyLlista.setLayoutManager(new LinearLayoutManager(requireContext()));
+        rcyLlista.setHasFixedSize(true);
         CardsAdapter adapter = new CardsAdapter(Card.getCartes(),this);
-        binding.rcyLlista.setAdapter(adapter);
+        rcyLlista.setAdapter(adapter);
 
-
-        return binding.getRoot();
+        return v;
+        //return binding.getRoot();
     }
 
     @Override
@@ -59,14 +64,23 @@ public class LlistaFragment extends Fragment implements View.OnClickListener, Ca
 
     @Override
     public void onPersonatgeSeleccionat(Card seleccionat) {
-        NavController navController =  NavHostFragment.findNavController(this);
+
+        View v = this.getView().findViewById(R.id.nav_host_fragment);
 
         // Preparant els paràmetres del fragment
         Bundle args = new Bundle();
-        args.putSerializable( DetallFragment.ARG_PARAM_PERSONATGE, seleccionat);
+        args.putSerializable(DetallFragment.ARG_PARAM_PERSONATGE, seleccionat);
 
+        boolean esticEnVertical = (v==null);
+        if(esticEnVertical) {
+            NavController navController = NavHostFragment.findNavController(this);
+            navController.navigate(R.id.action_llistaFragment_to_detallFragment, args);
 
-        //                                                                      /- Això és el paràmetre
-        navController.navigate(R.id.action_llistaFragment_to_detallFragment, args);
+        } else {
+            // estic en horitzontal
+            NavController navController = Navigation.findNavController(v);
+            navController.navigate(R.id.detallFragment2, args);
+
+        }
     }
 }

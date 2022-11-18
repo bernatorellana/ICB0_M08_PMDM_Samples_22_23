@@ -64,8 +64,11 @@ public class DetallFragment extends Fragment implements View.OnClickListener {
 
 
         binding = FragmentDetallBinding.inflate(inflater,container, false);
-
-        binding.txvNomPersonatge.setText(mCard.getName());
+        if(mCard!=null) {
+            binding.txvNomPersonatge.setText(mCard.getName());
+        } else {
+            binding.txvNomPersonatge.setText("Please select a character");
+        }
         binding.btnBack.setOnClickListener(this);
 
 

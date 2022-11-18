@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navegacio_llista.xml"
+    app:startDestination="@id/detallFragment2">
+
+    <fragment
+        android:id="@+id/detallFragment2"
+        android:name="org.milainfontanals.DetallFragment"
+        android:label="fragment_detall"
+        tools:layout="@layout/fragment_detall" />
+</navigation>
