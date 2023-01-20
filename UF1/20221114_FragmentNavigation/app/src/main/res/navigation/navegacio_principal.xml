@@ -39,4 +39,7 @@
             app:popUpTo="@id/llistaFragment"
             app:popUpToInclusive="true" />
     </fragment>
+    <action
+        android:id="@+id/action_global_portadaFragment"
+        app:destination="@id/portadaFragment" />
 </navigation>
